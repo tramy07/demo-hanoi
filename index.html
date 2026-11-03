@@ -132,7 +132,7 @@ function sGreedy(i){
  let L="";
  okOrder.forEach((id,rank)=>{
   const r=byId[id],c=(id===s.chosen?"pick":"ok")+" kid"+(id===foc?" foc":"");
-  const hl=r.hd.map(x=>`<div style="margin-left:14px">${dot(x.id)}${nm(x.id)}: ${x.ok?`<span class="okc">✔ đi được</span> (đi ${x.travel}', xong ${fmt(x.fin)})`:`<span class="noc">✘ không đi được</span> (${why(x.code,x.fin,x.id)})`}</div>`).join("");
+  const hl=r.hd.map(x=>`<div style="margin-left:14px">${dot(x.id)}${nm(x.id)}: ${x.ok?`<span class="okc">✔ đi được</span> (di chuyển mất ${x.travel} phút, tham quan mất ${SC[tn].pl[x.id].v} phút, xong lúc ${fmt(x.fin)})`:`<span class="noc">✘ không đi được</span> (${why(x.code,x.fin,x.id)})`}</div>`).join("");
   L+=`<div class="line ${c}" data-k="${id}"><div>${dot(id)}${nm(id)}: đi ${r.travel}' → xong ${fmt(r.fin)}</div>
    <div><b>h</b> = đếm điểm chưa thăm còn đi được từ ${nm(id)} lúc ${fmt(r.fin)}:</div>${hl||`<div style="margin-left:14px" class="mut">không còn điểm nào chưa thăm</div>`}
    <div><b>h = ${r.h}</b></div>${id===s.chosen?`<div>→ <b>CHỌN</b> (hạng 1: h lớn nhất${okOrder.length>1&&byId[okOrder[1]].h===r.h?", hòa h nên lấy điểm đi gần hơn "+r.travel+"'":""})</div>`:`<div>hạng ${rank+1}</div>`}</div>`;});
@@ -166,7 +166,7 @@ function sAstar(i){
  kids.slice().sort((x,y)=>(y.ok-x.ok)||((y.f||0)-(x.f||0))).forEach(k=>{
   if(!k.ok){L+=`<div class="line no">${dot(k.nxt)}<b>${nm(k.nxt)}</b>: ✘ không đi được (${why(k.code,k.fin,k.nxt)})</div>`;return;}
   const cls=(k.queued?"ok":"cut")+" kid"+(k.nxt===foc?" foc":"");
-  const hl=k.hd.map(x=>`<div style="margin-left:14px">${dot(x.id)}${nm(x.id)}: ${x.ok?`<span class="okc">✔ đi được</span> (đi ${x.travel}', xong ${fmt(x.fin)})`:`<span class="noc">✘ không đi được</span> (${why(x.code,x.fin,x.id)})`}</div>`).join("");
+  const hl=k.hd.map(x=>`<div style="margin-left:14px">${dot(x.id)}${nm(x.id)}: ${x.ok?`<span class="okc">✔ đi được</span> (di chuyển mất ${x.travel} phút, tham quan mất ${SC[tn].pl[x.id].v} phút, xong lúc ${fmt(x.fin)})`:`<span class="noc">✘ không đi được</span> (${why(x.code,x.fin,x.id)})`}</div>`).join("");
   L+=`<div class="line ${cls}" data-k="${k.nxt}"><div>${dot(k.nxt)}<b>Đi ${nm(k.nxt)}</b>: đi ${k.travel}' → xong lúc <b>${fmt(k.fin)}</b></div>
    <div><b>g</b> = ${s.g} + 1 = <b>${s.g+1}</b> (đã thăm ${s.pop.path.concat([k.nxt]).map(nm).join(", ")})</div>
    <div><b>h</b> = đếm điểm chưa thăm còn đi được từ ${fmt(k.fin)}:</div>${hl||`<div style="margin-left:14px" class="mut">không còn điểm nào chưa thăm</div>`}
