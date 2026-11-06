@@ -104,6 +104,8 @@ table.cmp tr.cur td{background:#eff6ff;font-weight:700}
  .main.st #gcard svg{max-height:80vh}
  .main.st #panel{margin-top:12px!important}
  body.stk .wrap{padding:18px 32px}
+ #msBar:empty{display:none}
+ .main.st.gr{margin-top:0}
  .main.one{display:block}
  .main.one #panel{margin-top:12px!important}
  .wrap{padding:12px 20px}
@@ -485,7 +487,7 @@ function renderCmp(){
  <h3 class="cs">2 · A* milestones: when are records found, and when does it know 7 is impossible?</h3>${cmpRec()}`;
  updG();
 }
-function setLayout(){const c=cmpMode;$("ctl").style.display=c?"none":"";$("msBar").style.display=c?"none":"";$("left").style.display=c?"none":"";$("main").classList.toggle("one",c);const st=!c&&algo==="astar";$("main").classList.toggle("st",st);document.body.classList.toggle("stk",st);if(c)$("story").style.display="none";topH();}
+function setLayout(){const c=cmpMode;$("ctl").style.display=c?"none":"";$("msBar").style.display=c?"none":"";$("left").style.display=c?"none":"";$("main").classList.toggle("one",c);const st=!c&&(algo==="astar"||algo==="greedy");$("main").classList.toggle("st",st);$("main").classList.toggle("gr",!c&&algo==="greedy");document.body.classList.toggle("stk",st);if(c)$("story").style.display="none";topH();}
 
 const topH=()=>document.documentElement.style.setProperty("--top",($("top").offsetHeight+8)+"px");
 window.addEventListener("resize",topH);
